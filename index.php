@@ -672,23 +672,17 @@ abstract class test_setup {
         global $DB;
 
         $cms = $DB->get_records_sql('
-            SELECT
-                cm.id           AS cmid,
-                mod.name        AS name,
-                mod.id          AS id,
-                course.fullname AS course_name,
-                course.id       AS course_id
-            FROM {course_modules} cm
-            JOIN {' . $this->get_table_name() . '} mod
-            ON mod.id = cm.instance
-            JOIN {course} course
-            ON course.id = cm.course
-            JOIN {modules} modules
-            ON cm.module = modules.id
-            WHERE cm.visible = 1
-            AND cm.course = ?
-            AND modules.name = ?
-            ', array($course, $this->get_name()));
+            SELECT cm.id AS cmid, moodlemod.name AS name,
+                   moodlemod.id AS id, course.fullname AS course_name,
+                   course.id AS course_id
+              FROM {course_modules} cm
+              JOIN {course} course
+                ON course.id = cm.course
+              JOIN {' . $this->get_table_name() . '} moodlemod
+                ON moodlemod.id = cm.instance
+              JOIN {modules} modules
+                ON cm.module = modules.id
+             WHERE cm.visible = 1 AND cm.course = ? AND modules.name = ?', array($course, $this->get_name()));
         return $cms;
     }
 
