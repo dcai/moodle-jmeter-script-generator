@@ -35,7 +35,8 @@ class simple_xml_constructor{
     }
 
     private function add_sibling($current_child_element_pointer, $element) {
-        $parent_element = array_pop($current_child_element_pointer->xpath('..'));
+        $childelement = $current_child_element_pointer->xpath('..');
+        $parent_element = array_pop($childelement);
         $current_element = $parent_element->addChild($element->tagname, $element->value);
         $this->do_attributes($current_element, $element);
         $this->do_children($current_element, $element);
@@ -169,7 +170,7 @@ class http_request_defaults extends main_element {
 
     function httpsampler_defaults($properties=false) {
         global $CFG;
-        $defaults                    = new Object();
+        $defaults                    = new stdclass();
         $defaults->domain            = preg_replace('_https?://_', '', $CFG->wwwroot);
 
         //  This is for dev only, won't do anything on live!
@@ -222,7 +223,7 @@ class httpsampler extends http_request_defaults {
         $this->copy_to_this($element);
 
         if(empty($properties)) {
-            $properties = new Object();
+            $properties = new stdclass();
         }
         //  Override the domain which is set in the master class to be empty.
         if(!isset($properties->domain)) {
