@@ -252,7 +252,7 @@ class httpsampler extends http_request_defaults {
     }
 
     function httpsampler_extra($properties=false) {
-        $defaults                    = new Object();
+        $defaults                    = new stdclass();
         $defaults->method            = 'GET';
         $defaults->name              = 'SomeName';
         $defaults->follow_redirects  = 'true';
@@ -847,8 +847,8 @@ class jmeter {
         $csv = '';
         for($i=1; $i<=$user_count; $i++) {
             //  We need to produce a user row.
-            $username = "testaccount$i";
-            $password = "password$i";
+            $username = "jmeter_testaccount$i";
+            $password = "1jmeter_password$i";
 
             //  We should only add the users if we are running moodle tests.
             if(!empty($_POST['generate_users'])) {
@@ -868,7 +868,7 @@ class jmeter {
 
                 //  If we have been asked to generate the moodle accounts generate them
                 //  now. First we need to check the account doesn't already exist
-                if($existinguser = $DB->get_record('user', array('email' => $user->email))) {
+                if($existinguser = $DB->get_record('user', array('username' => $username))) {
                     $userids[] = $existinguser->id;
                 } else {
                     $userids[] = $DB->insert_record('user', $user);
