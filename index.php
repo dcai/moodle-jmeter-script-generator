@@ -883,7 +883,7 @@ class jmeter {
         //  Now we need to add the user and loop info into the jmeter data
         $jmeter_data['users'] = $user_count;
         $jmeter_data['loops'] = intval($_POST['loops']);
-        $jmeter_data['image_parser'] = $_POST['image_parser'];
+        $jmeter_data['image_parser'] = !empty($_POST['image_parser']) ? $_POST['image_parser'] : 'false';
         $jmeter_data['courses'] = array();
         $jmeter_data['activities'] = array();
         //$jmeter_data['login'] = $_POST['user_type'];
