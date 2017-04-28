@@ -236,7 +236,7 @@ function quiz_get_questions($quiz_id) {
     if(!empty($_SESSION['retrived_question_ids'][$quiz_id])) {
         $question_ids = $_SESSION['retrived_question_ids'][$quiz_id];
     } else {
-        $question_ids = $DB->get_records('quiz_question_instances', array('quiz' => $quiz_id));
+        $question_ids = $DB->get_records('quiz_slots', array('quizid' => $quiz_id));
     }
 
     $questions = array();
@@ -249,7 +249,7 @@ function quiz_get_questions($quiz_id) {
         $questions = $_SESSION['retrived_questions'][$quiz_id];
     } else {
         foreach($question_ids as $index => $question) {
-            $db_question = $DB->get_record('question', array('id' => $question->question));
+            $db_question = $DB->get_record('question', array('id' => $question->questionid));
             $questions[$db_question->id] = $db_question;
         }
         get_question_options($questions);
